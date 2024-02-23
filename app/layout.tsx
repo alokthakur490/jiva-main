@@ -1,24 +1,26 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
-import AuthProvider from '@/providers/auth-provider'
-import ThemeProvider from '@/providers/theme-provider'
-import Navbar from '@/components/shared/navbar'
-import Footer from '@/components/shared/footer'
-import { Toaster } from '@/components/ui/toaster'
+import AuthProvider from "@/providers/auth-provider";
+import ThemeProvider from "@/providers/theme-provider";
+import Navbar from "@/components/shared/navbar";
+import Footer from "@/components/shared/footer";
+import { Toaster } from "@/components/ui/toaster";
+import Services from "@/components/Services";
+import data from "../constants/data";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Nextjs fullstack Authentication',
-  description: 'Sign-Up and Sign-In with Nextjs',
-}
+  title: "Jiva",
+  description: "",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html suppressHydrationWarning lang="en">
@@ -40,5 +42,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  )
+  );
 }

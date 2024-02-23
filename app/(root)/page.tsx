@@ -1,7 +1,10 @@
+import Services from "@/components/Services";
+import data from "@/constants/data";
+
 export default function Home() {
   return (
     <div>
-      <h1>Welcome to the Home Page</h1>
+      <Services services={data.services} />
     </div>
-  )
+  );
 }

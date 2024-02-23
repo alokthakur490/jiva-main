@@ -1,50 +1,99 @@
-import Link from "next/link"
-import { footerLinks } from "@/constants"
+import Link from "next/link";
+import { footerLinks } from "@/constants";
 
-import { Code } from "lucide-react"
+import { Code } from "lucide-react";
 
-const Footer = () => {
+import React from "react";
+import { FaInstagram } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+
+function Footer() {
   return (
-    <footer className="flex flex-col text-gray-500 text-sm mt-5 border-t border-gray-100">
-      <div className="flex flex-wrap justify-center max-sm:flex-col gap-10 px-6 py-10 sm:gap-20">
-        {footerLinks.map((links) => (
-          <div key={links.title}>
-            <h3 className="font-semibold text-gray-900 dark:text-gray-200">
-              {links.title}
-            </h3>
-            <div className="flex flex-col gap-2">
-              {links.links.map((link) => (
-                <Link
-                  key={link.title}
-                  href={link.url}
-                  className="md:text-xs"
-                >
-                  {link.title}
-                </Link>
-              ))}
+    <>
+      <div className="bg-gray-50 h-1/2 w-full flex md:flex-row flex-col justify-around items-start p-20">
+        <div className="p-5 ">
+          <ul>
+            <p className="text-gray-800 font-bold text-3xl pb-6">
+              Ji<span className="text-blue-600">Va</span>
+            </p>
+            <div className="flex gap-6 pb-5">
+              <FaInstagram className="text-2xl cursor-pointer hover:text-yellow-600" />
+              <FaTwitter className="text-2xl cursor-pointer hover:text-blue-600" />
+              <FaLinkedin className="text-2xl cursor-pointer hover:text-blue-600" />
+              <FaYoutube className="text-2xl cursor-pointer hover:text-red-600" />
             </div>
-          </div>
-        ))}
-
-      </div>
-      <div className="flex flex-wrap items-center justify-between border-t border-gray-100 gap-8 px-6 py-4 sm:px-20">
-        <div className="flex items-center gap-2">
-          <Code />
-          <p className="text-gray-900 dark:text-gray-200">
-            &copy; Web
-          </p>
+          </ul>
         </div>
-        <div className="flex max-sm:flex-col gap-2 sm:gap-4">
-          <Link href="/">
-            Privacy Notice
-          </Link>
-          <Link href="/">
-            Conditions of Use
-          </Link>
+        <div className="p-5">
+          <ul>
+            <p className="text-gray-800 font-bold text-2xl pb-4">Product</p>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Stocks
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Futures & Options
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Mutual Funds
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Fixed deposits
+            </li>
+          </ul>
+        </div>
+        <div className="p-5">
+          <ul>
+            <p className="text-gray-800 font-bold text-2xl pb-4">Company</p>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              About
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Products
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Pricing
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Careers
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Press & Media
+            </li>
+          </ul>
+        </div>
+        <div className="p-5">
+          <ul>
+            <p className="text-gray-800 font-bold text-2xl pb-4">Support</p>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Contact
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Support Portals
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              List Of Charges
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Downloads & Resources
+            </li>
+            <li className="text-gray-500 text-md pb-2 font-semibold hover:text-blue-600 cursor-pointer">
+              Videos
+            </li>
+          </ul>
         </div>
       </div>
-    </footer>
-  )
+      <div className="flex flex-col justify-center items-center text-center  p-5 bg-gray-50">
+        <h1 className=" text-gray-800 font-semibold">
+          ©2024 All rights reserved | Build with ❤ by
+          <span className="hover:text-blue-600 font-semibold cursor-pointer">
+            JIVA{" "}
+          </span>
+        </h1>
+      </div>
+    </>
+  );
 }
 
-export default Footer
+export default Footer;
