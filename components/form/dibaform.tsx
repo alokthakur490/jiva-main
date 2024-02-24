@@ -149,6 +149,11 @@ export default function DibForm() {
         console.error("Error:", error);
       });
   };
+  const [showInfo, setShowInfo] = useState<string | null>(null);
+
+  const handleInfoClick = (label: string, info: string) => {
+    setShowInfo(info);
+  };
 
   return (
     <main className="flex w-full pt-16 items-center justify-center ">
@@ -169,7 +174,19 @@ export default function DibForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Age</FormLabel>
+                  <FormLabel>Age
+                  <button
+                  className="text-blue-500 focus:outline-none"
+                  onClick={() =>
+                    handleInfoClick(
+                      "Age",
+                      "Age refers to the age of the patient in years."
+                    )
+                  }
+                >
+                  i
+                </button>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Input Age"

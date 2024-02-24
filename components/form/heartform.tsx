@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { Button } from "@/components/ui/button";
 import {
   SelectValue,
@@ -19,6 +20,7 @@ import {
   SelectItem,
   Select,
 } from "@/components/ui/select";
+
 
 const formSchema = z.object({
   Age: z.number().min(0).max(99), // Restricting to a single digit
@@ -34,6 +36,20 @@ const formSchema = z.object({
 });
 
 export default function HeartForm() {
+  const [openDialog, setOpenDialog] = useState<boolean[]>([false, false, false, false, false]); // Initialize with the appropriate number of dialog states
+
+const handleClickOpen = (index: number) => {
+  const newOpenDialogs = [...openDialog];
+  newOpenDialogs[index] = true;
+  setOpenDialog(newOpenDialogs);
+};
+
+const handleClose = (index: number) => {
+  const newOpenDialogs = [...openDialog];
+  newOpenDialogs[index] = false;
+  setOpenDialog(newOpenDialogs);
+};
+
   const [predictData, setpredictData] = useState<any>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -80,7 +96,7 @@ export default function HeartForm() {
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
+        setpredictData(data); // Update predictData state with fetched data
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -92,7 +108,7 @@ export default function HeartForm() {
       {predictData && (
         <div>
           <h2>API Response Data </h2>
-          <h1>{JSON.stringify(predictData, null, 2)}</h1>
+          <pre>{JSON.stringify(predictData, null, 2)}</pre>
         </div>
       )}
       <Form {...form}>
@@ -100,29 +116,64 @@ export default function HeartForm() {
           onSubmit={form.handleSubmit(HandleSubmit)}
           className="w-full stretch gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         >
+          {/* Form fields go here */}
+          
           <FormField
             control={form.control}
             name="Age"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Age</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Input Age"
-                      type="number"
-                      {...field}
-                      min="0"
-                      max="99"
-                      onChange={(e) =>
-                        form.setValue("Age", parseInt(e.target.value))
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
+            render={({ field }) => (
+              <FormItem>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>Age</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(0)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[0]} onClose={() => handleClose(0)}> {/* Pass the appropriate index here */}
+    <DialogTitle>Age*</DialogTitle>
+    <DialogContent>
+      This represents the age of the individual in years.
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(0)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
+                
+                <FormControl>
+                  <Input
+                    placeholder="Input Age"
+                    type="number"
+                    {...field}
+                    min="0"
+                    max="99"
+                    onChange={(e) =>
+                      form.setValue("Age", parseInt(e.target.value))
+                    }
+                  />
+                </FormControl>
+               
+                <FormMessage />
+              </FormItem>
+            ) 
+            }
           />
           <FormField
             control={form.control}
@@ -130,7 +181,41 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Sex</FormLabel>
+                  {/* <FormLabel>Sex</FormLabel> */}
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>Sex</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(1)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[1]} onClose={() => handleClose(1)}> {/* Pass the appropriate index here */}
+    <DialogTitle>Sex*</DialogTitle>
+    <DialogContent>
+    This is the gender of the individual. It is represented as a binary value where 1 stands for male and 0 stands for female.
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(1)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <Select
                     onValueChange={(value) =>
                       form.setValue("Sex", parseInt(value))
@@ -157,8 +242,43 @@ export default function HeartForm() {
             name="RestingBP"
             render={({ field }) => {
               return (
+                
                 <FormItem>
-                  <FormLabel>Rest Blood Pressure</FormLabel>
+                                 <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>RestingBP</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(2)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[2]} onClose={() => handleClose(2)}> {/* Pass the appropriate index here */}
+    <DialogTitle>Sex*</DialogTitle>
+    <DialogContent>
+    {/* This is the gender of the individual. It is represented as a binary value where 1 stands for male and 0 stands for female. */}
+    This is the individual’s resting blood pressure (in mm Hg) when they are at rest.
+Cholesterol: This is the individual’s cholesterol level, measured in mg/dl
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(2)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <FormControl>
                     <Input
                       placeholder=""
@@ -181,7 +301,40 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Fasting Blood Sugar</FormLabel>
+                                     <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>Fasting BS</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(3)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[3]} onClose={() => handleClose(3)}> {/* Pass the appropriate index here */}
+    <DialogTitle>Fasting BS*</DialogTitle>
+    <DialogContent>
+    This indicates whether the individual’s fasting blood sugar is greater than 120 mg/dl. It is represented as a binary value where 1 stands for true and 0 stands for false
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(3)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+           
                   <FormControl>
                     <Input
                       placeholder=""
@@ -203,7 +356,39 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Maximum Heart Rate</FormLabel>
+                                   <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>MaxHR</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(4)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[4]} onClose={() => handleClose(4)}> {/* Pass the appropriate index here */}
+    <DialogTitle>MaxHR*</DialogTitle>
+    <DialogContent>
+    This is the maximum heart rate achieved by the individual.
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(4)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+     
                   <FormControl>
                     <Input
                       placeholder=""
@@ -227,7 +412,40 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Excercise Angina</FormLabel>
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>ExerciseAngina</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(5)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[5]} onClose={() => handleClose(5)}> {/* Pass the appropriate index here */}
+    <DialogTitle>ExerciseAngina*</DialogTitle>
+    <DialogContent>
+    This indicates whether the individual experiences angina (chest pain) induced by exercise. It is represented as a binary value where 1 stands for yes and 0 stands for no.
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(5)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+              
                   <Select
                     onValueChange={(value) =>
                       form.setValue("ExerciseAngina", parseInt(value))
@@ -254,7 +472,41 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Typical Angina</FormLabel>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>ChestPainType_0</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(6)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[6]} onClose={() => handleClose(6)}> {/* Pass the appropriate index here */}
+    <DialogTitle>ChestPainType_0*</DialogTitle>
+    <DialogContent>
+    {/* This is the gender of the individual. It is represented as a binary value where 1 stands for male and 0 stands for female. */}
+    Typical angina, which is chest pain related to the heart.
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(6)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <Select
                     onValueChange={(value) =>
                       form.setValue("ChestPainType_0", parseInt(value))
@@ -281,7 +533,41 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Atypical Angina</FormLabel>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>ChestPainType_1</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(7)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[7]} onClose={() => handleClose(7)}> {/* Pass the appropriate index here */}
+    <DialogTitle>chestPainType_1*</DialogTitle>
+    <DialogContent>
+    {/* This is the gender of the individual. It is represented as a binary value where 1 stands for male and 0 stands for female. */}
+    Atypical angina, which is chest pain not related to the heart.
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(7)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <Select
                     onValueChange={(value) =>
                       form.setValue("ChestPainType_0", parseInt(value))
@@ -308,7 +594,41 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Non-Anginal Pain</FormLabel>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>ChestPainType_2</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(8)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[8]} onClose={() => handleClose(8)}> {/* Pass the appropriate index here */}
+    <DialogTitle>ChestPainType_2*</DialogTitle>
+    <DialogContent>
+    {/* This is the gender of the individual. It is represented as a binary value where 1 stands for male and 0 stands for female. */}
+    Non-anginal pain, which is typically sharp and non-continuous.
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(8)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <Select
                     onValueChange={(value) =>
                       form.setValue("ChestPainType_2", parseInt(value))
@@ -335,7 +655,40 @@ export default function HeartForm() {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Asymptomatic</FormLabel>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+  <FormLabel style={{ display: 'flex', alignItems: 'center' }}>
+    <span>ChestPainType_3</span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#5EABFC" // Change this to blue color
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      onClick={() => handleClickOpen(9)} // Pass the appropriate index here
+      style={{ marginLeft: '8px', cursor: 'pointer' }}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="16" x2="12" y2="12" />
+      <line x1="12" y1="8" x2="12" y2="8" />
+    </svg>
+  </FormLabel>
+  <Dialog open={openDialog[9]} onClose={() => handleClose(9)}> {/* Pass the appropriate index here */}
+    <DialogTitle>ChestPainType_3*</DialogTitle>
+    <DialogContent>
+    Asymptomatic, meaning the individual experiences no symptoms
+
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={() => handleClose(9)}>Close</Button> {/* Pass the appropriate index here */}
+    </DialogActions>
+  </Dialog>
+</div>
+
+
                   <Select
                     onValueChange={(value) =>
                       form.setValue("ChestPainType_3", parseInt(value))
