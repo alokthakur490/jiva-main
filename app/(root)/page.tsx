@@ -10,7 +10,6 @@ function Home() {
       <div className={style.mapContainer}>
         <MapDisease />
       </div>
-      <HeartForm />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import FormComponent from "@/components/form/dib_form";
-
+import DibaForm from "@/components/form/diba_form";
 interface HeartFormData {
   Age: number;
   Sex: number;
@@ -23,7 +23,7 @@ export default function HeartForm() {
 
   return (
     <div>
-      <FormComponent onSubmit={handleSubmit} />
+      <DibaForm />
     </div>
   );
 }
