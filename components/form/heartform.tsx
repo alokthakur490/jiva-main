@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -32,7 +33,9 @@ const formSchema = z.object({
   ChestPainType_3: z.number().min(0).max(1), // Assuming only 0 or 1 are valid
 });
 
-export default function DibaForm() {
+export default function HeartForm() {
+  const [predictData, setpredictData] = useState<any>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,13 +52,26 @@ export default function DibaForm() {
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+  const HandleSubmit = (values: z.infer<typeof formSchema>) => {
+    const formData = {
+      Age: values.Age,
+      Sex: values.Sex,
+      RestingBP: values.RestingBP,
+      FastingBS: values.FastingBS,
+      MaxHR: values.MaxHR,
+      ExerciseAngina: values.ExerciseAngina,
+      ChestPainType_0: values.ChestPainType_0,
+      ChestPainType_1: values.ChestPainType_1,
+      ChestPainType_2: values.ChestPainType_2,
+      ChestPainType_3: values.ChestPainType_3,
+    };
+
     fetch("http://34.131.74.135:5000/predict_api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ values }),
+      body: JSON.stringify(formData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -72,11 +88,17 @@ export default function DibaForm() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex w-full pt-16 items-center justify-center">
+      {predictData && (
+        <div>
+          <h2>API Response Data </h2>
+          <h1>{JSON.stringify(predictData, null, 2)}</h1>
+        </div>
+      )}
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(handleSubmit)}
-          className="max-w-md w-full flex flex-col gap-4"
+          onSubmit={form.handleSubmit(HandleSubmit)}
+          className="w-full stretch gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"
         >
           <FormField
             control={form.control}
@@ -187,6 +209,8 @@ export default function DibaForm() {
                       placeholder=""
                       type="number"
                       {...field}
+                      min="0"
+                      max="999"
                       onChange={(e) =>
                         form.setValue("MaxHR", parseInt(e.target.value))
                       }
