@@ -5,7 +5,6 @@ export default function DibFormPage() {
   return (
     <div>
       <DibForm />
-      asdfa
     </div>
   );
 }

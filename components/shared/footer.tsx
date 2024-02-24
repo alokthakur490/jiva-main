@@ -12,7 +12,7 @@ import { FaYoutube } from "react-icons/fa";
 function Footer() {
   return (
     <>
-      <div className="bg-gray-50 h-1/2 w-full flex md:flex-row flex-col justify-around items-start p-20">
+      {/* <div className="bg-gray-50 h-1/2 w-full flex md:flex-row flex-col justify-around items-start p-20">
         <div className="p-5 ">
           <ul>
             <p className="text-gray-800 font-bold text-3xl pb-6">
@@ -90,8 +90,8 @@ function Footer() {
           <span className="hover:text-blue-600 font-semibold cursor-pointer">
             JIVA{" "}
           </span>
-        </h1>
-      </div>
+        </h1> 
+      </div> */}
     </>
   );
 }

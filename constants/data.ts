@@ -4,34 +4,34 @@ const data = {
     {
       id: 1,
       picture: images.searchDoctor,
-      title: "Search Doctor",
+      title: "Skin Disease Detector",
       description:
-        "Choose your doctor from thousands of specialist, general, and trusted hospitals",
-      url: "https://google.com",
+        "A groundbreaking AI-driven tool for swiftly identifying and diagnosing various skin conditions, enhancing healthcare accessibility and efficiency.",
+      url: "/",
     },
     {
       id: 2,
       picture: images.onlinePharamacy,
-      title: "Online Pharmacy",
+      title: "ChatBot Prescription Test",
       description:
-        "Buy  your medicines with our mobile application with a simple delivery system",
+        "A revolutionary ChatBot Prescription Test personalized medical recommendations through interactive dialogue, streamlining patient care.",
       url: "https://google.com",
     },
     {
       id: 3,
       picture: images.consultation,
-      title: "Consultation",
+      title: "Heart Disease Predictor",
       description:
-        "Free consultation with our trusted doctors and get the best recomendations",
-      url: "https://google.com",
+        "An advanced machine learning-based system that predicts heart disease risk, preventive healthcare with data-driven insights.",
+      url: "/heart_disease",
     },
     {
       id: 4,
       picture: images.detailsInfo,
-      title: "Details Info",
+      title: "Diabetes Prediction Model",
       description:
-        "Free consultation with our trusted doctors and get the best recomendations",
-      url: "https://google.com",
+        "A predictive model leveraging machine learning to forecast diabetes risk, empowering proactive health management through early detection.",
+      url: "/dib_form",
     },
     {
       id: 5,
